@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'mymodel/css/bootstrap.min.css' %}">
+    <title>Web App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href={% url 'index' %}>Insurance Prediction</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                </div>
+              </nav>
+
+              <div class="col-md-3"></div>        
+              <div class="col-md-6">
+
+                <!-- Display the predictions -->
+                {% if data %}                
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  Expected bill will be {{ pred }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endif %}
+
+                <!-- Goes to mymodel.urls -->
+                <form action={% url 'predict' %} method="post">
+                  {% csrf_token %}
+                    <div class="form-group">
+                      <label for="age">Age:</label>
+                      <input required type="number" class="form-control" name="age" placeholder="Enter age">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="gender">Gender</label>
+                      <select required name="gender" class="form-select">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bmi">BMI</label>
+                        <input required step="0.01" type="number" class="form-control" name="bmi" placeholder="Enter BMI">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="children">Number of Children</label>
+                        <input required type="number" class="form-control" name="children" placeholder="Enter # of children">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="smoker">Smoking?</label>
+                        <select required name="smoker" class="form-select">
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="region">Region?</label>
+                        <select required name="region" class="form-select">
+                          <option value="southwest">South-West</option>
+                          <option value="southeast">South-East</option>
+                          <option value="northwest">North-West</option>
+                          <option value="northeast">North-East</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+              </div>
+
+              <div class="col-md-3"></div>
+        </div>
+    </div>
+</body>
+
+<script src="{% static 'mymodel/js/bootstrap.bundle.min.js' %}" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</html>
